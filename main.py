@@ -5,19 +5,19 @@ name = []
 #здесь есть еще одна секретная клавиша
 custom = play.new_text(words = None, x = 0, y = 200, size = 60)
 # smile = play.new_image(image = 'smile.png', x = 0, y = 0, size = 100)
-eat = play.new_image(image = 'apple.png', x = 0, y = 0, size = 90)
 hand = play.new_image(image = 'hand2.png', x = 0, y = 0, size = 90)
 smile = play.new_image(image = None, x = 0, y = 0, size = 100)
 hat = play.new_image(image = 'hat_choose.png', x =-200, y = 80, size = 100)
-glasses = play.new_image(image = 'glas_choose.png', x = -200, y = -80, size = 100)
+glasses = play.new_image(image = 'glas_choose.png', x = -200, y = 80, size = 100)
 nothing = play.new_image(image = 'nothing_choose.png', x = -200, y = -160, size = 100)
+nothing2 = play.new_image(image = 'nothing2_choose.png', x = -200, y = -160, size = 100)
 trash = play.new_image(image = 'trash.png', x = 60, y = -40, size = 70)
 trash.hide()
-eat.hide()
 smile.hide()
 glasses.hide()
+nothing2.hide()
 hand.hide()
-speech = play.new_text(words = None, x = 0, y = -80, font = None, font_size = 50)
+speech = play.new_text(words = None, x = 0, y = -100, font = None, font_size = 50)
 
 @play.when_program_starts
 def start():
@@ -31,12 +31,14 @@ def do():
     hat.hide()
     character.append("hat_")
     glasses.show()
+    nothing2.show()
     nothing.hide()
 
 @nothing.when_clicked
 def do2():
     hat.hide()
     glasses.show()
+    nothing2.show()
     nothing.hide()
 
 @glasses.when_clicked
@@ -48,6 +50,19 @@ def do3():
     smile.image = name + 'smile.png'
     smile.show()
     print(name)
+    custom.hide()
+    nothing2.hide()
+
+@nothing2.when_clicked
+def do4():
+    glasses.hide()
+    global name
+    name = ''.join(character)
+    smile.image = name + 'smile.png'
+    smile.show()
+    print(name)
+    custom.hide()
+    nothing2.hide()
 
 @play.repeat_forever
 async def game():
@@ -56,15 +71,14 @@ async def game():
         hand.show()
         speech.words = ('Мне приятно')
         await play.timer(seconds = 2)
+        hand.hide()
         smile.show()
         speech.words = ('Это всё? А можна ещё?')
     
     if play.key_is_pressed('2'):
-        smile.image = name + 'wow.png'
-        eat.show()
+        smile.image = name + 'eat.png'
         speech.words=('Ням ням ням')
         await play.timer(seconds = 1)
-        eat.hide()
         smile.image =(name + 'yummy.png')
         speech.words = ('Как вкусно!')
         await play.timer(seconds = 2)
