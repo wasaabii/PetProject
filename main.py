@@ -25,6 +25,18 @@ def start():
     hat.show()
     tutorial = play.new_text(words = "Нажимай на клавиши для действия со мной: 1 - погладить, 2 - покормить, 3 - убрать за мной, 4 - положить спать", x = 0, y = 0, font = None, font_size = 19, color = 'plum')
     tutorial.y = play.screen.height/2 - 30
+@play.when_key_pressed('l')
+def egg(key):
+    if key == 'l':
+        hat.hide()
+        nothing.hide()
+        character.append("letov_")
+        trash.image = 'pops.png'
+        global name
+        name = ''.join(character)
+        smile.image = name + 'smile.png'
+        smile.show()
+        print(name)
 
 @hat.when_clicked
 def do():
