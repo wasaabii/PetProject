@@ -4,8 +4,6 @@ name = []
 #здесь есть секретная клавиша
 #здесь есть еще одна секретная клавиша
 custom = play.new_text(words = None, x = 0, y = 200, size = 60)
-# smile = play.new_image(image = 'smile.png', x = 0, y = 0, size = 100)
-hand = play.new_image(image = 'hand.png', x = 0, y = 0, size = 90)
 smile = play.new_image(image = None, x = 0, y = 0, size = 100)
 hat = play.new_image(image = 'hat_choose.png', x =-200, y = 80, size = 100)
 glasses = play.new_image(image = 'glas_choose.png', x = -200, y = 80, size = 100)
@@ -16,7 +14,6 @@ trash.hide()
 smile.hide()
 glasses.hide()
 nothing2.hide()
-hand.hide()
 speech = play.new_text(words = None, x = 0, y = -100, font = None, font_size = 50)
 
 @play.when_program_starts
@@ -79,12 +76,9 @@ def do4():
 @play.repeat_forever
 async def game():
     if play.key_is_pressed('1'):
-        smile.hide()
-        hand.show()
+        smile.image = name + 'hand'
         speech.words = ('Мне приятно')
         await play.timer(seconds = 2)
-        hand.hide()
-        smile.show()
         speech.words = ('Это всё? А можна ещё?')
     
     if play.key_is_pressed('2'):
