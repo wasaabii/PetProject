@@ -121,5 +121,4 @@ async def game():
         smile.image=(name + 'sleep.png')
         speech.words = ('zZzZzZz')
 
-
 play.start_program()
