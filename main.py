@@ -2,21 +2,24 @@ import play
 character = []
 name = []
 #здесь есть секретная клавиша
-#здесь есть еще одна секретная клавиша
+#здесь есть еще одна секретная клавиша (от Вероники :) ) 
 custom = play.new_text(words = None, x = 0, y = 200, size = 60)
-# smile = play.new_image(image = 'smile.png', x = 0, y = 0, size = 100)
-# hand = play.new_image(image = 'hand.png', x = 0, y = 0, size = 90)
+#hats
 smile = play.new_image(image = None, x = 0, y = 0, size = 100)
-hat = play.new_image(image = 'hat_choose.png', x =-200, y = 80, size = 100)
-glasses = play.new_image(image = 'glas_choose.png', x = -200, y = 80, size = 100)
-nothing = play.new_image(image = 'nothing_choose.png', x = -200, y = -160, size = 100)
-nothing2 = play.new_image(image = 'nothing2_choose.png', x = -200, y = -160, size = 100)
+hat = play.new_image(image = 'hat_choose.png', x =-280, y = 100, size = 100)
+nothing = play.new_image(image = 'nothing_choose.png', x = -280, y = -20, size = 100)
+capka = play.new_image(image = "cap_choose.png", x = -280, y = -150, size = 100)
+#accessories
+glasses = play.new_image(image = 'glas_choose.png', x = -280, y = 100, size = 100)
+nothing2 = play.new_image(image = 'nothing2_choose.png', x = -280, y = -40, size = 100)
+#entities
 trash = play.new_image(image = 'trash.png', x = 60, y = -40, size = 70)
+speech = play.new_text(words = None, x = 0, y = -100, font = None, font_size = 50)
+#hide
 trash.hide()
 smile.hide()
 glasses.hide()
 nothing2.hide()
-speech = play.new_text(words = None, x = 0, y = -100, font = None, font_size = 50)
 
 @play.when_program_starts
 def start():
@@ -40,40 +43,54 @@ def egg(key):
 @hat.when_clicked
 def do():
     hat.hide()
+    nothing.hide()
+    capka.hide()
     character.append("hat_")
     glasses.show()
     nothing2.show()
-    nothing.hide()
 
 @nothing.when_clicked
 def do2():
     hat.hide()
+    nothing.hide()
+    capka.hide()
     glasses.show()
     nothing2.show()
+
+@capka.when_clicked
+def do5():
+    hat.hide()
     nothing.hide()
+    capka.hide()
+    glasses.show()
+    nothing2.show()
+    character.append("cap_")
+
 
 @glasses.when_clicked
 def do3():
     glasses.hide()
+    custom.hide()
+    nothing2.hide()
     character.append("glas_")
     global name
     name = ''.join(character)
     smile.image = name + 'smile.png'
     smile.show()
     print(name)
-    custom.hide()
-    nothing2.hide()
+
 
 @nothing2.when_clicked
 def do4():
     glasses.hide()
+    custom.hide()
+    nothing2.hide()
     global name
     name = ''.join(character)
     smile.image = name + 'smile.png'
     smile.show()
     print(name)
-    custom.hide()
-    nothing2.hide()
+
 
 @play.repeat_forever
 async def game():
