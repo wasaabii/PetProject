@@ -1,6 +1,10 @@
 import play
+from random import randint
 character = []
 name = []
+combo = 0
+combo2 = 0
+combo3 = 0
 #здесь есть секретная клавиша
 #здесь есть еще одна секретная клавиша (от Вероники :) ) 
 custom = play.new_text(words = None, x = 0, y = 200, size = 60)
@@ -14,7 +18,7 @@ glasses = play.new_image(image = 'glas_choose.png', x = -280, y = 100, size = 10
 nothing2 = play.new_image(image = 'nothing2_choose.png', x = -280, y = -40, size = 100)
 swag_glasses = play.new_image(image = "swag_choose.png", x = -280,  y = -150, size = 100 )
 #entities
-trash = play.new_image(image = 'trash.png', x = 60, y = -40, size = 70)
+trash = play.new_image(image = 'trash.png', x = 200, y = -20, size = 70)
 speech = play.new_text(words = None, x = 0, y = -100, font = None, font_size = 50)
 #hide
 trash.hide()
@@ -33,6 +37,7 @@ def start():
 def egg(key):
     if key == 'l':
         hat.hide()
+        capka.hide()
         nothing.hide()
         character.append("letov_")
         trash.image = 'pops.png'
@@ -114,22 +119,41 @@ def do6():
 @play.repeat_forever
 async def game():
     if play.key_is_pressed('1'):
+        global combo
+        global combo3
+        combo = combo + 1
+        combo3 = combo3 + 1
         smile.image = name + 'hand.png'
         speech.words = ('Мне приятно')
         await play.timer(seconds = 2)
         smile.image = name + 'smile.png'
         speech.words = ('Это всё? А можна ещё?')
     
+    if combo == 3:
+        smile.image = name + 'sad.png'
+        speech.words = ('Я голоден!')
+        await play.timer(seconds=1)
+        smile.image = name + 'pokerface.png'
+        speech.words = ('Покорми меня')
+        combo = 0
+    
     if play.key_is_pressed('2'):
+        global combo2
+        combo3 = combo3 + 1
+        combo2 = combo2 + 1
         smile.image = name + 'eat.png'
         speech.words=('Ням ням ням')
         await play.timer(seconds = 1)
         smile.image =(name + 'yummy.png')
-        speech.words = ('Как вкусно!')
-        await play.timer(seconds = 2)
+        speech.words = ('Спасибо! Очень вкусно!')
+    
+    if combo2 == 4:
+        await play.timer(seconds=1)
         smile.image = (name + 'mmh.png')
+        trash.size = (randint(20,150))
         trash.show()
         speech.words = ("Нажми 3 чтобы убрать за мной")
+        combo2 = 0
     
     if play.key_is_pressed('9'):
         smile.image =('easteregg.png')
@@ -152,18 +176,29 @@ async def game():
         speech.y = -80
         
     if play.key_is_pressed('3'):
+        combo3 = combo3 + 1
         trash.hide()
         smile.image= (name + 'wow.png')
         speech.words = ("Спасибо...")
         await play.timer(seconds=2)
         smile.image = (name + 'smile.png')
-        await play.timer(seconds=3)
+
+    if combo3 == 8:
+        await play.timer(seconds=1)
         speech.words=("Я хочу спать")
         smile.image=(name + 'sleepy.png')
         await play.timer(seconds=1)
         speech.words=("Нажми 4 чтобы положить меня спать")
+        combo3 = 0
+
     if play.key_is_pressed('4'):
         smile.image=(name + 'sleep.png')
         speech.words = ('zZzZzZz')
+        await play.timer(seconds=4)
+        smile.image = name + 'sleepy.png'
+        speech.words = ('Доброе утро!')
+        await play.timer(seconds=1)
+        smile.image = name + 'smile.png'
+        speech.words =('')
 
 play.start_program()
