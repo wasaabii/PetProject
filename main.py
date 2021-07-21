@@ -12,6 +12,7 @@ capka = play.new_image(image = "cap_choose.png", x = -280, y = -150, size = 100)
 #accessories
 glasses = play.new_image(image = 'glas_choose.png', x = -280, y = 100, size = 100)
 nothing2 = play.new_image(image = 'nothing2_choose.png', x = -280, y = -40, size = 100)
+swag_glasses = play.new_image(image = "swag_choose.png", x = -280,  y = -150, size = 100 )
 #entities
 trash = play.new_image(image = 'trash.png', x = 60, y = -40, size = 70)
 speech = play.new_text(words = None, x = 0, y = -100, font = None, font_size = 50)
@@ -20,6 +21,7 @@ trash.hide()
 smile.hide()
 glasses.hide()
 nothing2.hide()
+swag_glasses.hide()
 
 @play.when_program_starts
 def start():
@@ -48,6 +50,7 @@ def do():
     character.append("hat_")
     glasses.show()
     nothing2.show()
+    swag_glasses.show()
 
 @nothing.when_clicked
 def do2():
@@ -56,6 +59,7 @@ def do2():
     capka.hide()
     glasses.show()
     nothing2.show()
+    swag_glasses.show()
 
 @capka.when_clicked
 def do5():
@@ -65,6 +69,7 @@ def do5():
     glasses.show()
     nothing2.show()
     character.append("cap_")
+    swag_glasses.show()
 
 
 @glasses.when_clicked
@@ -72,6 +77,7 @@ def do3():
     glasses.hide()
     custom.hide()
     nothing2.hide()
+    swag_glasses.hide()
     character.append("glas_")
     global name
     name = ''.join(character)
@@ -85,12 +91,25 @@ def do4():
     glasses.hide()
     custom.hide()
     nothing2.hide()
+    swag_glasses.hide()
     global name
     name = ''.join(character)
     smile.image = name + 'smile.png'
     smile.show()
     print(name)
 
+@swag_glasses.when_clicked
+def do6():
+    glasses.hide()
+    custom.hide()
+    nothing2.hide()
+    swag_glasses.hide()
+    character.append("swag_")
+    global name
+    name = ''.join(character)
+    smile.image = name + 'smile.png'
+    smile.show()
+    print(name)
 
 @play.repeat_forever
 async def game():
@@ -136,7 +155,7 @@ async def game():
         trash.hide()
         smile.image= (name + 'wow.png')
         speech.words = ("Спасибо...")
-        await play.timer(seconds=1)
+        await play.timer(seconds=2)
         smile.image = (name + 'smile.png')
         await play.timer(seconds=3)
         speech.words=("Я хочу спать")
