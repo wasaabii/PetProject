@@ -2,12 +2,19 @@ import play
 from random import randint
 character = []
 name = []
-combo = 0
-combo2 = 0
-combo3 = 0
+bar1 = 1
+bar2 = 1
+bar3 = 1
+combo = 0 #еда
+combo2 = 0 #кекать
+combo3 = 0 #спать
 #здесь есть секретная клавиша
 #здесь есть еще одна секретная клавиша (от Вероники :) ) 
 custom = play.new_text(words = None, x = 0, y = 200, size = 60)
+#bars
+eatbar = play.new_image(image = None, x = -310, y = 200)
+slbar = play.new_image(image = None, x = -310, y = 120)
+ppbar = play.new_image(image = None, x = -310, y = 45)
 #hats
 smile = play.new_image(image = None, x = 0, y = 0, size = 100)
 hat = play.new_image(image = 'hat_choose.png', x =-280, y = 100, size = 100)
@@ -26,9 +33,13 @@ smile.hide()
 glasses.hide()
 nothing2.hide()
 swag_glasses.hide()
+eatbar.hide()
+slbar.hide()
+ppbar.hide()
 
 @play.when_program_starts
 def start():
+    global custom
     custom = play.new_text(words = 'Выберите внешность для своего персонажа: ', x = 0, y = 200, size = 60)
     hat.show()
     tutorial = play.new_text(words = "Нажимай на клавиши для действия со мной: 1 - погладить, 2 - покормить, 3 - убрать за мной, 4 - положить спать", x = 0, y = 0, font = None, font_size = 19, color = 'plum')
@@ -44,7 +55,12 @@ def egg(key):
         global name
         name = ''.join(character)
         smile.image = name + 'smile.png'
+        eatbar.image = str(bar1) + 'eat_bar.png'
+        slbar.image = str(bar2) + 'sleep_bar.png'
         smile.show()
+        slbar.show()
+        eatbar.show()
+        custom.hide()
         print(name)
 
 @hat.when_clicked
@@ -87,7 +103,13 @@ def do3():
     global name
     name = ''.join(character)
     smile.image = name + 'smile.png'
+    slbar.image = str(bar2) + 'sleep_bar.png'
+    eatbar.image = str(bar1) + 'eat_bar.png'
+    ppbar.image = str(bar3) + 'poop_bar.png'
+    eatbar.show()
+    slbar.show()
     smile.show()
+    ppbar.show()
     print(name)
 
 
@@ -100,7 +122,13 @@ def do4():
     global name
     name = ''.join(character)
     smile.image = name + 'smile.png'
+    slbar.image = str(bar2) + 'sleep_bar.png'
+    eatbar.image = str(bar1) + 'eat_bar.png'
+    ppbar.image = str(bar3) + 'poop_bar.png'
+    eatbar.show()
+    slbar.show()
     smile.show()
+    ppbar.show()
     print(name)
 
 @swag_glasses.when_clicked
@@ -113,7 +141,13 @@ def do6():
     global name
     name = ''.join(character)
     smile.image = name + 'smile.png'
+    eatbar.image = str(bar1) + 'eat_bar.png'
+    slbar.image = str(bar2) + 'sleep_bar.png'
+    ppbar.image = str(bar3) + 'poop_bar.png'
     smile.show()
+    eatbar.show()
+    slbar.show()
+    ppbar.show()
     print(name)
 
 @play.repeat_forever
@@ -121,8 +155,15 @@ async def game():
     if play.key_is_pressed('1'):
         global combo
         global combo3
+        global bar1
+        global bar2
+        global bar3
+        bar1 = int(bar1) + 1
+        bar2 = int(bar2) + 1
         combo = combo + 1
         combo3 = combo3 + 1
+        eatbar.image = str(bar1) + 'eat_bar.png'
+        slbar.image = str(bar2) + 'sleep_bar.png'      
         smile.image = name + 'hand.png'
         speech.words = ('Мне приятно')
         await play.timer(seconds = 2)
@@ -139,21 +180,31 @@ async def game():
     
     if play.key_is_pressed('2'):
         global combo2
+        print(str(bar2) + 'lalala')
         combo3 = combo3 + 1
         combo2 = combo2 + 1
+        bar2 = int(bar2) + 1
+        bar3 = int(bar3) + 1
+        slbar.image = str(bar2) + 'sleep_bar.png'
+        ppbar.image = str(bar3) + 'poop_bar.png'
         smile.image = name + 'eat.png'
         speech.words=('Ням ням ням')
         await play.timer(seconds = 1)
+        bar1 = 1
+        eatbar.image = str(bar1) + 'eat_bar.png'
         smile.image =(name + 'yummy.png')
         speech.words = ('Спасибо! Очень вкусно!')
     
     if combo2 == 4:
         await play.timer(seconds=1)
+        ppbar.image = str(bar3) + 'poop_bar.png'
         smile.image = (name + 'mmh.png')
         trash.size = (randint(20,150))
         trash.show()
         speech.words = ("Нажми 3 чтобы убрать за мной")
         combo2 = 0
+        bar3 = 1
+        ppbar.image = str(bar3) + 'poop_bar.png'
     
     if play.key_is_pressed('9'):
         smile.image =('easteregg.png')
@@ -174,9 +225,12 @@ async def game():
         await play.timer(seconds=1)
         smile.image = (name + 'smile.png' )
         speech.y = -80
-        
+
     if play.key_is_pressed('3'):
-        combo3 = combo3 + 1
+        combo3 = combo3 + 11
+        print(str(bar2) + 'azaza')
+        bar2 = int(bar2) + 1
+        slbar.image = str(bar2) + 'sleep_bar.png'
         trash.hide()
         smile.image= (name + 'wow.png')
         speech.words = ("Спасибо...")
@@ -190,11 +244,14 @@ async def game():
         await play.timer(seconds=1)
         speech.words=("Нажми 4 чтобы положить меня спать")
         combo3 = 0
+        slbar.image = str(bar2) + 'sleep_bar.png'
 
     if play.key_is_pressed('4'):
         smile.image=(name + 'sleep.png')
         speech.words = ('zZzZzZz')
         await play.timer(seconds=4)
+        bar2 = 1
+        slbar.image = str(bar2) + 'sleep_bar.png'
         smile.image = name + 'sleepy.png'
         speech.words = ('Доброе утро!')
         await play.timer(seconds=1)
